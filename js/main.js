@@ -1,6 +1,9 @@
 /*jslint node: true */
+'use strict';
 
-const getRandomNumber = function (min, max) {
+// Изменил способ объявления функций на стрелочный. Но стрелочный мне
+// меньше нравится, т.к. много ньюансов в более сложных функциях.
+const getRandomNumber = (min, max) => {
   if (max <= min) {
     alert('ошибка! Минимальное число должно быть меньше максимального');
   }
@@ -10,10 +13,11 @@ const getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-getRandomNumber(20, 50);
+(getRandomNumber(20, 70));
 
-let getCoordinates = function (min, max, numberOfSymbols) {
-
+// Оставил ключевое слово let, потому что "...Будет использоваться для
+// генерации временных географических координат в следующем задании."
+let getCoordinates = (min, max, numberOfSymbols) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   let random = Math.random() * (max - min + 1) + min;
@@ -21,9 +25,4 @@ let getCoordinates = function (min, max, numberOfSymbols) {
   return random.toFixed(numberOfSymbols);
 };
 
-getCoordinates(1, 100, 3);
-
-
-
-
-
+(getCoordinates(1, 100, 3));

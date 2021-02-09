@@ -58,17 +58,18 @@ FEATURES.length = getRandomNumber(1, FEATURES.length);
 const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 PHOTOS.length = getRandomNumber(1, PHOTOS.length);
 
-const getLocationX = () => {
-  return 35 + '.' + getRandomNumber(65000, 70000);
+const getCoordinatesX = () => {
+  getCoordinates(35.65000, 35.70000, 5);
 };
 
-const getLocationY = () => {
-  return 139 + '.' + getRandomNumber(70000, 80000);
+const getCoordinatesY = () => {
+  getCoordinates(139.70000, 139.80000, 5);
 };
+
 
 const SIMILAR_ADS_COUNT = 10;
 
@@ -95,12 +96,14 @@ const createAd = () => {
     },
 
     location: {
-      x: getLocationX(),
-      y: getLocationY(),
+      x: getCoordinatesX(),
+      y: getCoordinatesY(),
     },
   };
 };
 
 const similarAds = new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
 
-console.log(similarAds);
+similarAds();
+
+

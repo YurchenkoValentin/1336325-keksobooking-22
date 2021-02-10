@@ -1,4 +1,8 @@
 import {similarAds} from './data.js';
 
-console.log(similarAds);
+const getSimilarAds = () => {
+  return similarAds;
+};
+
+getSimilarAds();
 

@@ -1,8 +1,6 @@
 /*jslint node: true */
 'use strict';
 
-// Изменил способ объявления функций на стрелочный. Но стрелочный мне
-// меньше нравится, т.к. много ньюансов в более сложных функциях.
 const getRandomNumber = (min, max) => {
   if (max <= min) {
     alert('ошибка! Минимальное число должно быть меньше максимального');
@@ -13,16 +11,99 @@ const getRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-(getRandomNumber(20, 70));
-
-// Оставил ключевое слово let, потому что "...Будет использоваться для
-// генерации временных географических координат в следующем задании."
 let getCoordinates = (min, max, numberOfSymbols) => {
   min = Math.ceil(min);
   max = Math.floor(max);
-  let random = Math.random() * (max - min + 1) + min;
+  let random = min + Math.random() * (max - min);
 
   return random.toFixed(numberOfSymbols);
 };
 
-(getCoordinates(1, 100, 3));
+// Задание №2
+
+const getAvatarNumber = () => {
+  return getRandomNumber(1, 8);
+};
+
+const getRandomPrice = () => {
+  return getRandomNumber(1, 100000);
+};
+
+const ACCOMMODATION_TYPES = ['palace', 'flat', 'house', 'bungalow'];
+const getAccommodationTypeIndex = () => {
+  return getRandomNumber(0, ACCOMMODATION_TYPES.length - 1);
+};
+
+const getRandomRoomsNumber = () => {
+  return getRandomNumber(1, 5);
+};
+
+const getRandomGuestsNumber = () => {
+  return getRandomNumber(1, 50);
+};
+
+const CHECKIN = ['12:00', '13:00', '14:00'];
+const getAccommodationCheckinIndex = () => {
+  return getRandomNumber(0, CHECKIN.length - 1);
+};
+
+const CHECKOUT = ['12:00', '13:00', '14,00'];
+const getAccommodationCheckoutIndex = () => {
+  return getRandomNumber(0, CHECKOUT.length - 1);
+};
+
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+FEATURES.length = getRandomNumber(1, FEATURES.length);
+
+const PHOTOS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
+];
+PHOTOS.length = getRandomNumber(1, PHOTOS.length);
+
+const getCoordinatesX = () => {
+  getCoordinates(35.65000, 35.70000, 5);
+};
+
+const getCoordinatesY = () => {
+  getCoordinates(139.70000, 139.80000, 5);
+};
+
+
+const SIMILAR_ADS_COUNT = 10;
+
+const createAd = () => {
+  return {
+    author: {
+      avatar: 'img/avatars/user' + 0 + getAvatarNumber() + '.png',
+    },
+
+    offer: {
+      title: 'Лучшее предложение. Жилье на берегу океана!',
+      address: function () {
+        return this.location.x;
+      },
+      price: getRandomPrice(),
+      type: ACCOMMODATION_TYPES[getAccommodationTypeIndex()],
+      rooms: getRandomRoomsNumber(),
+      guests: getRandomGuestsNumber(),
+      checkin: CHECKIN[getAccommodationCheckinIndex()],
+      checkout: CHECKOUT[getAccommodationCheckoutIndex()],
+      features: FEATURES,
+      description: 'Лучшие виды на пляжи Калифорнии',
+      photos: PHOTOS,
+    },
+
+    location: {
+      x: getCoordinatesX(),
+      y: getCoordinatesY(),
+    },
+  };
+};
+
+const similarAds = new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
+
+similarAds();
+
+

@@ -1,8 +1,10 @@
 import {similarAds} from './data.js';
+import {popupTitle} from './similar-elements.js';
 
-const getSimilarAds = () => {
-  return similarAds;
-};
+console.log(similarAds());
 
-getSimilarAds();
+
+
+
+
 

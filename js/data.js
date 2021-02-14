@@ -26,7 +26,7 @@ const getAccommodationCheckinIndex = () => {
   return getRandomNumber(0, CHECKIN.length - 1);
 };
 
-const CHECKOUT = ['12:00', '13:00', '14,00'];
+const CHECKOUT = ['12:00', '13:00', '14:00'];
 const getAccommodationCheckoutIndex = () => {
   return getRandomNumber(0, CHECKOUT.length - 1);
 };
@@ -61,7 +61,7 @@ const createAd = () => {
     offer: {
       title: 'Лучшее предложение. Жилье на берегу океана!',
       address: function () {
-        return this.location.x;
+        return this.location.x; //здесь не работает
       },
       price: getRandomPrice(),
       type: ACCOMMODATION_TYPES[getAccommodationTypeIndex()],
@@ -81,6 +81,7 @@ const createAd = () => {
   };
 };
 
-const similarAds = new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
+const similarAds = () => new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
 
 export {similarAds};
+

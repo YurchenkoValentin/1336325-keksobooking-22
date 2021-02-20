@@ -1,7 +1,8 @@
-import {similarAds} from './data.js';
-import {popupTitle} from './similar-elements.js';
+import {createAdverts} from './data.js';
+import {createSimilarAdverts} from './test.js';
 
-console.log(similarAds());
+createSimilarAdverts();
+createAdverts();
 
 
 

@@ -17,3 +17,5 @@ const getCoordinates = (min, max, numberOfSymbols) => {
 };
 
 export {getRandomNumber, getCoordinates};
+
+

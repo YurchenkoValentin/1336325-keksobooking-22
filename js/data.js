@@ -31,7 +31,7 @@ const getAccommodationCheckoutIndex = () => {
   return getRandomNumber(0, CHECKOUT.length - 1);
 };
 
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const FEATURES = ['wifi', ' dishwasher', ' parking', ' washer', ' elevator', ' conditioner'];
 FEATURES.length = getRandomNumber(1, FEATURES.length);
 
 const PHOTOS = [
@@ -42,27 +42,24 @@ const PHOTOS = [
 PHOTOS.length = getRandomNumber(1, PHOTOS.length);
 
 const getCoordinatesX = () => {
-  getCoordinates(35.65000, 35.70000, 5);
+  return getCoordinates(35.65000, 35.70000, 5);
 };
 
 const getCoordinatesY = () => {
-  getCoordinates(139.70000, 139.80000, 5);
+  return getCoordinates(139.70000, 139.80000, 5);
 };
-
 
 const SIMILAR_ADS_COUNT = 10;
 
 const createAd = () => {
-  return {
+  let adExample =  {
     author: {
       avatar: 'img/avatars/user' + 0 + getAvatarNumber() + '.png',
     },
 
     offer: {
       title: 'Лучшее предложение. Жилье на берегу океана!',
-      address: function () {
-        return this.location.x; //здесь не работает
-      },
+      address: '',
       price: getRandomPrice(),
       type: ACCOMMODATION_TYPES[getAccommodationTypeIndex()],
       rooms: getRandomRoomsNumber(),
@@ -79,9 +76,14 @@ const createAd = () => {
       y: getCoordinatesY(),
     },
   };
+
+  adExample.offer.address = `${adExample.location.x}, ${adExample.location.y}`;
+  return adExample;
 };
 
-const similarAds = () => new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
+createAd();
 
-export {similarAds};
+const createAdverts = () => new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
+
+export {createAdverts};
 

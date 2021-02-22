@@ -9,11 +9,7 @@ const getRandomNumber = (min, max) => {
 };
 
 const getCoordinates = (min, max, numberOfSymbols) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  let random = min + Math.random() * (max - min);
-
-  return random.toFixed(numberOfSymbols);
+  return (Math.random() * (max - min) + min).toFixed(numberOfSymbols);
 };
 
 export {getRandomNumber, getCoordinates};

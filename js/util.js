@@ -12,6 +12,15 @@ const getCoordinates = (min, max, numberOfSymbols) => {
   return (Math.random() * (max - min) + min).toFixed(numberOfSymbols);
 };
 
-export {getRandomNumber, getCoordinates};
+const getRandomArrayCountShuffled = (array) => {
+  getArrayShuffle(array);
+  return array.slice(getRandomNumber(0, array.length - 1));
+};
+
+const getArrayShuffle = (array) => {
+  return array.sort(() => Math.random() - 0.5);
+};
+
+export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled};
 
 

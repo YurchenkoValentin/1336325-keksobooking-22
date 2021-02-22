@@ -1,4 +1,4 @@
-import {getRandomNumber, getCoordinates} from './util.js';
+import {getRandomNumber, getCoordinates, getRandomArrayCountShuffled} from './util.js';
 
 const getAvatarNumber = () => {
   return getRandomNumber(1, 8);
@@ -32,14 +32,12 @@ const getAccommodationCheckoutIndex = () => {
 };
 
 const FEATURES = ['wifi', ' dishwasher', ' parking', ' washer', ' elevator', ' conditioner'];
-FEATURES.length = getRandomNumber(1, FEATURES.length);
 
 const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
-PHOTOS.length = getRandomNumber(1, PHOTOS.length);
 
 const getCoordinatesX = () => {
   return getCoordinates(35.65000, 35.70000, 5);
@@ -66,9 +64,9 @@ const createAd = () => {
       guests: getRandomGuestsNumber(),
       checkin: CHECKIN[getAccommodationCheckinIndex()],
       checkout: CHECKOUT[getAccommodationCheckoutIndex()],
-      features: FEATURES,
+      features: getRandomArrayCountShuffled(FEATURES),
       description: 'Лучшие виды на пляжи Калифорнии',
-      photos: PHOTOS,
+      photos: getRandomArrayCountShuffled(PHOTOS),
     },
 
     location: {
@@ -85,5 +83,5 @@ createAd();
 
 const createAdverts = () => new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
 
-export {createAdverts};
+export {createAdverts, createAd};
 

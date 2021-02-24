@@ -1,8 +1,11 @@
-import {similarAds} from './data.js';
+import {createAdverts} from './data.js';
+import {createSimilarAdverts} from './create-similar-ad.js';
 
-const getSimilarAds = () => {
-  return similarAds;
-};
+createSimilarAdverts();
+createAdverts();
 
-getSimilarAds();
+
+
+
+
 

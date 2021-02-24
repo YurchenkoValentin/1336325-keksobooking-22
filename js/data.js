@@ -1,4 +1,4 @@
-import {getRandomNumber, getCoordinates} from './util.js';
+import {getRandomNumber, getCoordinates, getRandomArrayCountShuffled} from './util.js';
 
 const getAvatarNumber = () => {
   return getRandomNumber(1, 8);
@@ -26,52 +26,47 @@ const getAccommodationCheckinIndex = () => {
   return getRandomNumber(0, CHECKIN.length - 1);
 };
 
-const CHECKOUT = ['12:00', '13:00', '14,00'];
+const CHECKOUT = ['12:00', '13:00', '14:00'];
 const getAccommodationCheckoutIndex = () => {
   return getRandomNumber(0, CHECKOUT.length - 1);
 };
 
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-FEATURES.length = getRandomNumber(1, FEATURES.length);
+const FEATURES = ['wifi', ' dishwasher', ' parking', ' washer', ' elevator', ' conditioner'];
 
 const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
-PHOTOS.length = getRandomNumber(1, PHOTOS.length);
 
 const getCoordinatesX = () => {
-  getCoordinates(35.65000, 35.70000, 5);
+  return getCoordinates(35.65000, 35.70000, 5);
 };
 
 const getCoordinatesY = () => {
-  getCoordinates(139.70000, 139.80000, 5);
+  return getCoordinates(139.70000, 139.80000, 5);
 };
-
 
 const SIMILAR_ADS_COUNT = 10;
 
 const createAd = () => {
-  return {
+  let adExample =  {
     author: {
       avatar: 'img/avatars/user' + 0 + getAvatarNumber() + '.png',
     },
 
     offer: {
       title: 'Лучшее предложение. Жилье на берегу океана!',
-      address: function () {
-        return this.location.x;
-      },
+      address: '',
       price: getRandomPrice(),
       type: ACCOMMODATION_TYPES[getAccommodationTypeIndex()],
       rooms: getRandomRoomsNumber(),
       guests: getRandomGuestsNumber(),
       checkin: CHECKIN[getAccommodationCheckinIndex()],
       checkout: CHECKOUT[getAccommodationCheckoutIndex()],
-      features: FEATURES,
+      features: getRandomArrayCountShuffled(FEATURES),
       description: 'Лучшие виды на пляжи Калифорнии',
-      photos: PHOTOS,
+      photos: getRandomArrayCountShuffled(PHOTOS),
     },
 
     location: {
@@ -79,8 +74,14 @@ const createAd = () => {
       y: getCoordinatesY(),
     },
   };
+
+  adExample.offer.address = `${adExample.location.x}, ${adExample.location.y}`;
+  return adExample;
 };
 
-const similarAds = new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
+createAd();
 
-export {similarAds};
+const createAdverts = () => new Array(SIMILAR_ADS_COUNT).fill(null).map(() => createAd());
+
+export {createAdverts, createAd};
+

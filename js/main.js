@@ -8,4 +8,3 @@ createAdverts();
 
 
 
-

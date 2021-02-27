@@ -5,12 +5,11 @@ const similarAds = createAdverts();
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup'); //получаем контент темплейта
 const photosContainer = cardTemplate.querySelector('.popup__photos');
 const popupPhoto = cardTemplate.querySelector('.popup__photo');
-
-const mapCanvas = document.querySelector('#map-canvas');
+//const mapCanvas = document.querySelector('#map-canvas');
 
 const createSimilarAdverts = () => {
   similarAds.forEach((advertisement) => {
-
+    const adElement = cardTemplate.cloneNode(true);
     // Сопоставление типов жилья
     const getAccommodationType = (type) => {
       switch (type) {
@@ -36,12 +35,9 @@ const createSimilarAdverts = () => {
     cardTemplate.querySelector('.popup__description').textContent = advertisement.offer.description;
     generatePhotos();
     cardTemplate.querySelector('.popup__avatar').setAttribute('src', advertisement.author.avatar);
+
+    return adElement;
   });
-
-
-  const adElement = cardTemplate.cloneNode(true);
-  mapCanvas.append(adElement);
-
 };
 
 const generatePhotos = () => {

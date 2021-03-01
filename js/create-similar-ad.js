@@ -7,6 +7,14 @@ const photosContainer = cardTemplate.querySelector('.popup__photos');
 const popupPhoto = cardTemplate.querySelector('.popup__photo');
 //const mapCanvas = document.querySelector('#map-canvas');
 
+const generatePhotos = () => {
+  photosContainer.innerHTML = '';
+  createAd().offer.photos.forEach((item) => {
+    popupPhoto.src = item;
+    photosContainer.append(popupPhoto.cloneNode(true));
+  });
+};
+
 const createSimilarAdverts = () => {
   similarAds.forEach((advertisement) => {
     const adElement = cardTemplate.cloneNode(true);
@@ -38,15 +46,10 @@ const createSimilarAdverts = () => {
 
     return adElement;
   });
+
+  //mapCanvas.append(adElement);
 };
 
-const generatePhotos = () => {
-  photosContainer.innerHTML = '';
-  createAd().offer.photos.forEach((item) => {
-    popupPhoto.src = item;
-    photosContainer.append(popupPhoto.cloneNode(true));
-  });
-};
 
 export {createSimilarAdverts};
 

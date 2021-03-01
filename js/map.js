@@ -2,8 +2,8 @@
 import {createAdverts} from './data.js';
 import {createSimilarAdverts} from './create-similar-ad.js';
 
-const similarAdvertsArray = createAdverts();
-console.log(similarAdvertsArray);
+const advertsArray = createAdverts();
+console.log(advertsArray);
 
 const adForm = document.querySelector('.ad-form');
 const formFildsets = adForm.querySelectorAll('fieldset');
@@ -79,10 +79,10 @@ mainPinMarker.on('moveend', (evt) => {
   console.log(evt.target.getLatLng());
 });
 
-similarAdvertsArray.forEach((advert) => {
+advertsArray.forEach((advert) => {
   const lat = advert.location.x;
   const lng = advert.location.y;
-  const avatar = advert.author.avatar;
+  const offer = advert.offer.guests;
 
   const pinIcon = L.icon({
     iconUrl: '../img/pin.svg',
@@ -93,12 +93,10 @@ similarAdvertsArray.forEach((advert) => {
   const marker = L.marker({
     lat,
     lng,
-    avatar,
   },
   {
     icon: pinIcon,
-  },
-  );
+  });
 
   marker
     .addTo(map)

@@ -3,7 +3,6 @@ import {createAdverts} from './data.js';
 import {createSimilarAdverts} from './create-similar-ad.js';
 
 const advertsArray = createAdverts();
-console.log(advertsArray);
 
 const adForm = document.querySelector('.ad-form');
 const formFildsets = adForm.querySelectorAll('fieldset');
@@ -29,6 +28,7 @@ mapFeatures.forEach((feature) => {
 
 const map = L.map(mapContainer)
   .on('load', () => {
+    console.log('Карта инициализирована');
     adForm.classList.remove('ad-form--disabled');
     mapFiltersContainer.classList.remove('map__filters--disabled');
 
@@ -79,10 +79,9 @@ mainPinMarker.on('moveend', (evt) => {
   console.log(evt.target.getLatLng());
 });
 
-advertsArray.forEach((advert) => {
-  const lat = advert.location.x;
-  const lng = advert.location.y;
-  const offer = advert.offer.guests;
+advertsArray.forEach((advertisement) => {
+  const lat = advertisement.location.x;
+  const lng = advertisement.location.y;
 
   const pinIcon = L.icon({
     iconUrl: '../img/pin.svg',
@@ -99,9 +98,9 @@ advertsArray.forEach((advert) => {
   });
 
   marker
-    .addTo(map)
-    .bindPopup(
-      createSimilarAdverts(advert),
+    .addTo(map).
+    bindPopup(
+      createSimilarAdverts(advertisement),
     );
 });
 

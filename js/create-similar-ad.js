@@ -1,4 +1,4 @@
-import {createAdverts, createAd} from './data.js';
+import {createAd} from './data.js';
 
 //const similarAds = createAd();
 

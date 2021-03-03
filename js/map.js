@@ -28,7 +28,7 @@ mapFeatures.forEach((feature) => {
 
 const map = L.map(mapContainer)
   .on('load', () => {
-    console.log('Карта инициализирована');
+    //console.log('Карта инициализирована');
     adForm.classList.remove('ad-form--disabled');
     mapFiltersContainer.classList.remove('map__filters--disabled');
 
@@ -76,7 +76,7 @@ const mainPinMarker = L.marker(
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
-  console.log(evt.target.getLatLng());
+  evt.target.getLatLng();
 });
 
 advertsArray.forEach((advertisement) => {

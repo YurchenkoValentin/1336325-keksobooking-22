@@ -79,9 +79,10 @@ mainPinMarker.on('moveend', (evt) => {
   evt.target.getLatLng();
 });
 
-advertsArray.forEach((advertisement) => {
-  const lat = advertisement.location.x;
-  const lng = advertisement.location.y;
+
+advertsArray.forEach((ad) => {
+  const lat = ad.location.x;
+  const lng = ad.location.y;
 
   const pinIcon = L.icon({
     iconUrl: '../img/pin.svg',
@@ -100,9 +101,11 @@ advertsArray.forEach((advertisement) => {
   marker
     .addTo(map).
     bindPopup(
-      createSimilarAdverts(advertisement),
+      createSimilarAdverts(ad),
     );
 });
+
+
 
 
 

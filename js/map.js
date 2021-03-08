@@ -1,6 +1,7 @@
 /* global L:readonly */
 import {createAdverts} from './data.js';
 import {createSimilarAdverts} from './create-similar-ad.js';
+import {getData} from './backend.js';
 
 const advertsArray = createAdverts();
 
@@ -104,6 +105,7 @@ advertsArray.forEach((ad) => {
       createSimilarAdverts(ad),
     );
 });
+
 
 
 

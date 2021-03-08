@@ -1,7 +1,5 @@
 import {createAd} from './data.js';
 
-
-
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup'); //получаем контент темплейта
 const photosContainer = cardTemplate.querySelector('.popup__photos');
 const popupPhoto = cardTemplate.querySelector('.popup__photo');

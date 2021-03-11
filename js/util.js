@@ -41,7 +41,7 @@ const showAlert = (message) => {
   setTimeout(() => {
     alertContainer.remove();
   }, 5000);
-}
+};
 
 
 export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert};

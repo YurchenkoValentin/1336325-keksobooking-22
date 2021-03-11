@@ -4,31 +4,37 @@ import {createSimilarAdverts} from './create-similar-ad.js';
 
 //const advertsArray = createAdverts();
 
+const adForm = document.querySelector('.ad-form');
+const formFildsets = adForm.querySelectorAll('fieldset');
+const mapFiltersContainer = document.querySelector('.map__filters');
+const mapFilters = mapFiltersContainer.querySelectorAll('.map__filter');
+const mapFeatures = mapFiltersContainer.querySelectorAll('.map__features');
+const mapContainer = document.querySelector('.map__canvas');
+
+
+const getForm = () => {
+  return adForm;
+};
+
+adForm.classList.add('ad-form--disabled');
+mapFiltersContainer.classList.add('map__filters--disabled');
+
+formFildsets.forEach((fildset) => {
+  fildset.setAttribute('disabled', true);
+});
+
+mapFilters.forEach((filter) => {
+  filter.setAttribute('disabled', true);
+});
+
+mapFeatures.forEach((feature) => {
+  feature.setAttribute('disabled', true);
+});
+
+
 const getMapData = (advertsArray) => {
 
   console.log(advertsArray);
-  const adForm = document.querySelector('.ad-form');
-  const formFildsets = adForm.querySelectorAll('fieldset');
-  const mapFiltersContainer = document.querySelector('.map__filters');
-  const mapFilters = mapFiltersContainer.querySelectorAll('.map__filter');
-  const mapFeatures = mapFiltersContainer.querySelectorAll('.map__features');
-  const mapContainer = document.querySelector('.map__canvas');
-
-  adForm.classList.add('ad-form--disabled');
-  mapFiltersContainer.classList.add('map__filters--disabled');
-
-  formFildsets.forEach((fildset) => {
-    fildset.setAttribute('disabled', true);
-  });
-
-  mapFilters.forEach((filter) => {
-    filter.setAttribute('disabled', true);
-  });
-
-  mapFeatures.forEach((feature) => {
-    feature.setAttribute('disabled', true);
-  });
-
   const map = L.map(mapContainer)
     .on('load', () => {
       //console.log('Карта инициализирована');
@@ -109,9 +115,7 @@ const getMapData = (advertsArray) => {
   });
 };
 
-
-
-export {getMapData};
+export {getMapData, getForm};
 
 
 

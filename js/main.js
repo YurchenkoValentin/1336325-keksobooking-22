@@ -7,8 +7,8 @@ createSimilarAdverts(); */
 import {getData} from './backend.js';
 import {getMapData} from './map.js';
 
-getData ((el) => {
-  getMapData(el);
+getData((defaultData) => {
+  getMapData(defaultData);
 });
 
 

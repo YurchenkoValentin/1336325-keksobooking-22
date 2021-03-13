@@ -1,8 +1,11 @@
 const housingType = document.querySelector('select#type');
+
 const formCheckinCheckout = document.querySelector('.ad-form__element--time');
 const checkin = formCheckinCheckout.querySelector('#timein');
 const checkout = formCheckinCheckout.querySelector('#timeout');
 
+const roomNumber = document.querySelector('select#room_number');
+const roomCapacity = document.querySelector('select#capacity');
 
 housingType.addEventListener('change', () => {
 
@@ -55,4 +58,45 @@ checkout.addEventListener('change', () => {
   }
 });
 
+
+roomNumber.addEventListener('change', () => {
+  switch (roomNumber.value) {
+    case '1':
+      roomCapacity.value = '1';
+      break;
+    case '2':
+      roomCapacity.value = '1';
+      roomCapacity.value = '2';
+      break;
+    case '3':
+      roomCapacity.value = '1';
+      roomCapacity.value = '2';
+      roomCapacity.value = '3';
+      break;
+    case '100':
+      roomCapacity.value = '0';
+      break;
+  }
+});
+
+roomCapacity.addEventListener('change', () => {
+  switch (roomCapacity.value) {
+    case '0':
+      roomNumber.value = '100';
+      break;
+    case '1':
+      roomNumber.value = '1';
+      roomNumber.value = '2';
+      break;
+    case '2':
+      roomNumber.value = '1';
+      roomNumber.value = '2';
+      break;
+    case '3':
+      roomNumber.value = '1';
+      roomNumber.value = '2';
+      roomNumber.value = '3';
+      break;
+  }
+});
 

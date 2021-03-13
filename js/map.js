@@ -11,6 +11,8 @@ const mapFilters = mapFiltersContainer.querySelectorAll('.map__filter');
 const mapFeatures = mapFiltersContainer.querySelectorAll('.map__features');
 const mapContainer = document.querySelector('.map__canvas');
 
+let formCoordinates = document.querySelector('.ad-form__element--wide #address');
+
 
 const getForm = () => {
   return adForm;
@@ -84,10 +86,16 @@ const getMapData = (advertsArray) => {
 
   mainPinMarker.addTo(map);
 
-  mainPinMarker.on('moveend', (evt) => {
-    evt.target.getLatLng();
-  });
 
+  mainPinMarker.on('moveend', (evt) => {
+    const coordinates = evt.target.getLatLng();
+    const lat = coordinates.lat;
+    const lng = coordinates.lng;
+    formCoordinates.value = `${String(lat.toFixed(5))}, ${String(lng.toFixed(5))}`;
+    return formCoordinates;
+
+
+  });
 
   advertsArray.forEach((ad) => {
     const lat = ad.location.lat;

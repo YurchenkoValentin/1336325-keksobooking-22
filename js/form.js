@@ -100,3 +100,6 @@ roomCapacity.addEventListener('change', () => {
   }
 });
 
+
+
+

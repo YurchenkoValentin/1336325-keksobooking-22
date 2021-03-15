@@ -6,12 +6,12 @@ createSimilarAdverts(); */
 
 import {getData} from './backend.js';
 import {getMapData} from './map.js';
+import {filterData} from './filters.js';
 
-getData((defaultData) => {
-  getMapData(defaultData);
+
+getData((serverData) => {
+  filterData(serverData);
+  getMapData(serverData);
 });
 
-
-
-// ЧТО ЯВЛЯЕТСЯ ПАРАМЕТРОМ el ????
 

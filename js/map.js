@@ -2,8 +2,6 @@
 //import {createAdverts} from './data.js';
 import {createSimilarAdverts} from './create-similar-ad.js';
 
-//const advertsArray = createAdverts();
-
 const adForm = document.querySelector('.ad-form');
 const formFildsets = adForm.querySelectorAll('fieldset');
 const mapFiltersContainer = document.querySelector('.map__filters');
@@ -36,7 +34,7 @@ mapFeatures.forEach((feature) => {
 
 const getMapData = (advertsArray) => {
 
-  console.log(advertsArray);
+  console.log(advertsArray); //МАССИВ С ПОЛУЧЕННЫМИ ДАННЫМИ
   const map = L.map(mapContainer)
     .on('load', () => {
       //console.log('Карта инициализирована');

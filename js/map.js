@@ -95,6 +95,109 @@ const getMapData = (advertsArray) => {
 
   });
 
+  /* const filterHousingType = document.querySelector('#housing-type');
+
+
+  filterHousingType.addEventListener('change', () => {
+    const filteredArr = advertsArray.filter((ad) => {
+
+      console.log(filterHousingType.value);
+
+      switch (filterHousingType.value) {
+        case 'palace':
+          return ad.offer.type === 'palace';
+        case 'flat':
+          return ad.offer.type === 'flat';
+        case 'house':
+          return ad.offer.type === 'house';
+        case 'bungalow':
+          return ad.offer.type === 'bungalow';
+      }
+
+    }); */
+
+    advertsArray.filter((ad) => {
+      const lat = ad.location.lat;
+      const lng = ad.location.lng;
+
+      const pinIcon = L.icon({
+        iconUrl: '../img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
+
+      const marker = L.marker({
+        lat,
+        lng,
+      },
+      {
+        icon: pinIcon,
+      });
+
+      marker
+        .addTo(map).
+        bindPopup(
+          createSimilarAdverts(ad),
+        );
+    });
+
+  //});
+};
+
+export {getMapData, getForm};
+
+
+
+
+/// НЕ ЗАБУДЬ ПЕРЕПОДКЛЮЧИТЬ СКРИПТЫ И СТИЛИ LEAFLET ЛОКАЛЬНО
+
+
+
+/// РАБОЧИЙ ВАРИАНТ С ОТОБРАЖЕНИЕМ ОБЪЯВЛЕНИЙ ПО ПАРАМЕТРУ ТИПА ЖИЛЬЯ
+/*
+const filterHousingType = document.querySelector('#housing-type');
+
+
+  filterHousingType.addEventListener('change', () => {
+    const filteredArr = advertsArray.filter((ad) => {
+      if (ad.offer.type === 'flat') {
+        return ad;
+      }
+    });
+
+    filteredArr.forEach((ad) => {
+      const lat = ad.location.lat;
+      const lng = ad.location.lng;
+
+      const pinIcon = L.icon({
+        iconUrl: '../img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
+
+      const marker = L.marker({
+        lat,
+        lng,
+      },
+      {
+        icon: pinIcon,
+      });
+
+      marker
+        .addTo(map).
+        bindPopup(
+          createSimilarAdverts(ad),
+        );
+    });
+
+  }); */
+
+
+
+
+
+  //ОРИГИНАЛЬНЫЙ ВАРИАНТ
+  /*
   advertsArray.forEach((ad) => {
     const lat = ad.location.lat;
     const lng = ad.location.lng;
@@ -118,12 +221,4 @@ const getMapData = (advertsArray) => {
       bindPopup(
         createSimilarAdverts(ad),
       );
-  });
-};
-
-export {getMapData, getForm};
-
-
-
-
-/// НЕ ЗАБУДЬ ПЕРЕПОДКЛЮЧИТЬ СКРИПТЫ И СТИЛИ LEAFLET ЛОКАЛЬНО
+  }); */

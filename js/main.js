@@ -10,8 +10,18 @@ import {filterData} from './filters.js';
 
 
 getData((serverData) => {
-  filterData(serverData);
   getMapData(serverData);
+  filterData(serverData);
 });
 
+
+
+
+//// РАБОТАЕТ БЕЗ ОБРАБОТЧИКА
+/* const filterData = ((serverData) => {
+  const filteredData = serverData.filter((ad) => {
+    return ad.offer.type === 'flat';
+  });
+  getMapData(filteredData);
+}); */
 

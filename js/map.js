@@ -1,6 +1,7 @@
 /* global L:readonly */
 //import {createAdverts} from './data.js';
 import {createSimilarAdverts} from './create-similar-ad.js';
+import {filterData} from './filters.js';
 
 const adForm = document.querySelector('.ad-form');
 const formFildsets = adForm.querySelectorAll('fieldset');
@@ -31,32 +32,35 @@ mapFeatures.forEach((feature) => {
   feature.setAttribute('disabled', true);
 });
 
+const map = L.map(mapContainer)
+  .on('load', () => {
 
-const getMapData = (advertsArray) => {
+    //console.log('Карта инициализирована');
+    adForm.classList.remove('ad-form--disabled');
+    mapFiltersContainer.classList.remove('map__filters--disabled');
+
+    formFildsets.forEach((fildset) => {
+      fildset.removeAttribute('disabled', true);
+    });
+
+    mapFilters.forEach((filter) => {
+      filter.removeAttribute('disabled', true);
+    });
+
+    mapFeatures.forEach((feature) => {
+      feature.removeAttribute('disabled', true);
+    });
+  })
+  .setView({
+    lat: 35.67636,
+    lng: 139.69927,
+  }, 14);
+
+
+const getMapData = (advertsArray, map) => {
+
 
   console.log(advertsArray); //МАССИВ С ПОЛУЧЕННЫМИ ДАННЫМИ
-  const map = L.map(mapContainer)
-    .on('load', () => {
-      //console.log('Карта инициализирована');
-      adForm.classList.remove('ad-form--disabled');
-      mapFiltersContainer.classList.remove('map__filters--disabled');
-
-      formFildsets.forEach((fildset) => {
-        fildset.removeAttribute('disabled', true);
-      });
-
-      mapFilters.forEach((filter) => {
-        filter.removeAttribute('disabled', true);
-      });
-
-      mapFeatures.forEach((feature) => {
-        feature.removeAttribute('disabled', true);
-      });
-    })
-    .setView({
-      lat: 35.67636,
-      lng: 139.69927,
-    }, 14);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -92,59 +96,37 @@ const getMapData = (advertsArray) => {
     formCoordinates.value = `${String(lat.toFixed(5))}, ${String(lng.toFixed(5))}`;
     return formCoordinates;
 
-
   });
-
-  /* const filterHousingType = document.querySelector('#housing-type');
-
-
-  filterHousingType.addEventListener('change', () => {
-    const filteredArr = advertsArray.filter((ad) => {
-
-      console.log(filterHousingType.value);
-
-      switch (filterHousingType.value) {
-        case 'palace':
-          return ad.offer.type === 'palace';
-        case 'flat':
-          return ad.offer.type === 'flat';
-        case 'house':
-          return ad.offer.type === 'house';
-        case 'bungalow':
-          return ad.offer.type === 'bungalow';
-      }
-
-    }); */
-
-    advertsArray.filter((ad) => {
-      const lat = ad.location.lat;
-      const lng = ad.location.lng;
-
-      const pinIcon = L.icon({
-        iconUrl: '../img/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      const marker = L.marker({
-        lat,
-        lng,
-      },
-      {
-        icon: pinIcon,
-      });
-
-      marker
-        .addTo(map).
-        bindPopup(
-          createSimilarAdverts(ad),
-        );
-    });
-
-  //});
+  getPins(advertsArray, map);
 };
 
-export {getMapData, getForm};
+const getPins = (advertsArray, map) => {
+
+  const markers = L.layerGroup().addTo(map);
+  //clearMap(markers);
+
+  advertsArray.forEach((ad) => {
+    const lat = ad.location.lat;
+    const lng = ad.location.lng;
+
+    const pinIcon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+
+    const marker = L.marker({lat,lng},{icon: pinIcon});
+    marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
+  });
+  clearMap(markers);
+};
+
+
+const clearMap = (markers) => {
+  markers.clearLayers();
+};
+
+export {getMapData, getForm, getPins, map};
 
 
 

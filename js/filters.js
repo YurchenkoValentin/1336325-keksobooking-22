@@ -1,22 +1,20 @@
+import {getMapData, getPins, map} from './map.js';
 //В форме с фильтрами реализовать филтрацию по параметрам
 //т.е. показывать объявления с какими-то параметрами
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
+
 const filterHousingType = document.querySelector('#housing-type');
 const filterHousingPrice = document.querySelector('#housing-price');
 const filterHousingRooms = document.querySelector('#housing-rooms');
 const filterHousingGuests = document.querySelector('#housing-guests');
 
 
-
-const MIN_PRICE = 10000;
-const MAX_PRICE = 50000;
-
-
-
-const filterData = ((serverData) => {
-
+const filterData = ((serverData, map) => {
   filterHousingType.addEventListener('change', () => {
 
     const typeFilter = (() => {
+
       const arrFilteredByType = serverData.filter((ad) => {
 
         switch (filterHousingType.value) {
@@ -32,11 +30,12 @@ const filterData = ((serverData) => {
             return ad;
         }
       });
-      console.log(arrFilteredByType);
+      getPins(arrFilteredByType, map);
     });
     typeFilter();
   });
 
+/*
   filterHousingPrice.addEventListener('change', () => {
 
     const priceFilter = (() => {
@@ -108,10 +107,9 @@ const filterData = ((serverData) => {
       console.log(arrFilteredByGuestsNumber);
     });
     guestsFilter();
-  });
+  }); */
 
 });
-
 
 export {filterData};
 

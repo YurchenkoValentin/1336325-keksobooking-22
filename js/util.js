@@ -44,6 +44,7 @@ const showAlert = (message) => {
 };
 
 
+
 export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert};
 
 

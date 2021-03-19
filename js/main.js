@@ -5,23 +5,22 @@ createSimilarAdverts(); */
 //createAdverts();
 
 import {getData} from './backend.js';
-import {getMapData} from './map.js';
+import {getMapData, map} from './map.js';
 import {filterData} from './filters.js';
 
 
 getData((serverData) => {
-  getMapData(serverData);
-  filterData(serverData);
+  filterData(serverData, map);
+  getMapData(serverData, map);
 });
 
 
 
-
-//// РАБОТАЕТ БЕЗ ОБРАБОТЧИКА
-/* const filterData = ((serverData) => {
+/* //// РАБОТАЕТ БЕЗ ОБРАБОТЧИКА
+const filterData = ((serverData) => {
   const filteredData = serverData.filter((ad) => {
     return ad.offer.type === 'flat';
   });
   getMapData(filteredData);
-}); */
-
+});
+ */

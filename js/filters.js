@@ -1,4 +1,4 @@
-import {getMapData, getPins, map} from './map.js';
+import {getMapData, getPins, map, clearMap} from './map.js';
 //В форме с фильтрами реализовать филтрацию по параметрам
 //т.е. показывать объявления с какими-то параметрами
 const MIN_PRICE = 10000;
@@ -13,8 +13,9 @@ const filterHousingGuests = document.querySelector('#housing-guests');
 const filterData = ((serverData, map) => {
   filterHousingType.addEventListener('change', () => {
 
-    const typeFilter = (() => {
+    clearMap();
 
+    const typeFilter = (() => {
       const arrFilteredByType = serverData.filter((ad) => {
 
         switch (filterHousingType.value) {
@@ -35,8 +36,9 @@ const filterData = ((serverData, map) => {
     typeFilter();
   });
 
-/*
   filterHousingPrice.addEventListener('change', () => {
+
+    clearMap();
 
     const priceFilter = (() => {
       const arrFilteredByPrice = serverData.filter((ad) => {
@@ -59,12 +61,14 @@ const filterData = ((serverData, map) => {
         }
 
       });
-      console.log(arrFilteredByPrice);
+      getPins(arrFilteredByPrice, map);
     });
     priceFilter();
   });
 
   filterHousingRooms.addEventListener('change', () => {
+
+    clearMap();
 
     const roomsFilter = (() => {
       const arrFilteredByRoomsNumber = serverData.filter((ad) => {
@@ -81,13 +85,15 @@ const filterData = ((serverData, map) => {
         }
 
       });
-      console.log(arrFilteredByRoomsNumber);
+      getPins(arrFilteredByRoomsNumber, map);
     });
     roomsFilter();
   });
 
 
   filterHousingGuests.addEventListener('change', () => {
+
+    clearMap();
 
     const guestsFilter = (() => {
       const arrFilteredByGuestsNumber = serverData.filter((ad) => {
@@ -104,11 +110,10 @@ const filterData = ((serverData, map) => {
         }
 
       });
-      console.log(arrFilteredByGuestsNumber);
+      getPins(arrFilteredByGuestsNumber, map);
     });
     guestsFilter();
-  }); */
-
+  });
 });
 
 export {filterData};

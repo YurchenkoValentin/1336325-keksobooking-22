@@ -102,8 +102,7 @@ const getMapData = (advertsArray, map) => {
 
 const getPins = (advertsArray, map) => {
 
-  const markers = L.layerGroup().addTo(map);
-  //clearMap(markers);
+
 
   advertsArray.forEach((ad) => {
     const lat = ad.location.lat;
@@ -118,15 +117,18 @@ const getPins = (advertsArray, map) => {
     const marker = L.marker({lat,lng},{icon: pinIcon});
     marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
   });
-  clearMap(markers);
 };
 
+const markers = L.layerGroup().addTo(map);
 
-const clearMap = (markers) => {
+const clearMap = () => {
   markers.clearLayers();
 };
 
-export {getMapData, getForm, getPins, map};
+
+
+
+export {getMapData, getForm, getPins, map, clearMap};
 
 
 

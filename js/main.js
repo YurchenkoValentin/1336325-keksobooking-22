@@ -1,10 +1,10 @@
 import {getData} from './backend.js';
 import {getMapData, map} from './map.js';
-import {filterData} from './filters.js';
+import {filterDataWrapper} from './filters.js';
 
 
 getData((serverData) => {
-  filterData(serverData, map);
+  filterDataWrapper(serverData, map);
   getMapData(serverData, map);
 });
 

@@ -30,17 +30,17 @@ const createSimilarAdverts = (ad) => {
     }
   };
 
-  cardTemplate.querySelector('.popup__title').textContent =  ad.offer.title;
-  cardTemplate.querySelector('.popup__text--address').textContent = ad.offer.address;
-  cardTemplate.querySelector('.popup__text--price').textContent = String(ad.offer.price) + ' ₽/ночь';
-  cardTemplate.querySelector('.popup__type').textContent = getAccommodationType(ad.offer.type);
-  cardTemplate.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
-  cardTemplate.querySelector('.popup__text--time').textContent = `Заезд после ${String(ad.offer.checkin)},
+  adElement.querySelector('.popup__title').textContent =  ad.offer.title;
+  adElement.querySelector('.popup__text--address').textContent = ad.offer.address;
+  adElement.querySelector('.popup__text--price').textContent = String(ad.offer.price) + ' ₽/ночь';
+  adElement.querySelector('.popup__type').textContent = getAccommodationType(ad.offer.type);
+  adElement.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
+  adElement.querySelector('.popup__text--time').textContent = `Заезд после ${String(ad.offer.checkin)},
                                                                 выезд после  ${String(ad.offer.checkout)}`;
-  cardTemplate.querySelector('.popup__features').textContent = ad.offer.features;
-  cardTemplate.querySelector('.popup__description').textContent = ad.offer.description;
+  adElement.querySelector('.popup__features').textContent = ad.offer.features;
+  adElement.querySelector('.popup__description').textContent = ad.offer.description;
   generatePhotos();
-  cardTemplate.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
+  adElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
 
   return adElement;
 };

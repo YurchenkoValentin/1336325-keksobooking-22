@@ -10,12 +10,39 @@ import {getPins, clearMap} from './map.js';
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
 
+const filtersWrapper = document.querySelector('.map__filters');
+
 const filterHousingType = document.querySelector('#housing-type');
 const filterHousingPrice = document.querySelector('#housing-price');
 const filterHousingRooms = document.querySelector('#housing-rooms');
 const filterHousingGuests = document.querySelector('#housing-guests');
 
-const filtersWrapper = document.querySelector('.map__filters');
+//Начало работы с фильтрами-чекбоксами
+
+/* const featureWifi = document.querySelector('.map__feature--wifi');
+const featureDishwasher = document.querySelector('#filter-dishwasher');
+const featureParking = document.querySelector('#feature-parking');
+const featureWasher = document.querySelector('#feature-washer');
+const featureElevator = document.querySelector('#feature-elevator');
+const featureconditioner = document.querySelector('#feature-conditioner');
+
+
+
+const funcName = () => {
+  const emptyArr = [];
+
+  featureWifi.addEventListener('click', () => {
+    const wifi = document.querySelector('#filter-wifi').value;
+    //console.log(wifi);
+
+    emptyArr.push('wifi');
+    console.log(emptyArr);
+  });
+
+
+};
+
+funcName(); */
 
 
 const filterData = ((serverData) => {
@@ -80,7 +107,6 @@ const filterData = ((serverData) => {
         case 'any':
           return ad;
       }
-
     });
 
     const firstCompare = arrFilteredByType.filter((type) => {
@@ -101,7 +127,6 @@ const filterData = ((serverData) => {
       });
     });
 
-    console.log(finalcompare);
     getPins(finalcompare);
   });
 });

@@ -99,7 +99,7 @@ const getMapData = (advertsArray, map) => {
   getPins(advertsArray, map);
 };
 
-const getPins = (advertsArray, map) => {
+const getPins = (advertsArray) => {
 
   advertsArray.forEach((ad) => {
     const lat = ad.location.lat;

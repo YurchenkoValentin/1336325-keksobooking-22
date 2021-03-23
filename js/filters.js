@@ -1,10 +1,3 @@
-//Необходимо реализовать изменения фильтров таким образом, чтобы они не отменяли предыдущие
-
-
-//1. Вынести все фильтры в одну функцию
-//1.1. Обработку события вешать на элемент формы фильтров
-//2. Сравнить все массивы. Возвращать значения, которые повтаряются в каждом. Возможно, поможет метод (every);
-
 import {getPins, clearMap} from './map.js';
 
 const MIN_PRICE = 10000;
@@ -19,30 +12,31 @@ const filterHousingGuests = document.querySelector('#housing-guests');
 
 //Начало работы с фильтрами-чекбоксами
 
-/* const featureWifi = document.querySelector('.map__feature--wifi');
+const featureWifi = document.querySelector('#filter-wifi');
 const featureDishwasher = document.querySelector('#filter-dishwasher');
-const featureParking = document.querySelector('#feature-parking');
-const featureWasher = document.querySelector('#feature-washer');
-const featureElevator = document.querySelector('#feature-elevator');
-const featureconditioner = document.querySelector('#feature-conditioner');
+const featureParking = document.querySelector('#filter-parking');
+const featureWasher = document.querySelector('#filter-washer');
+const featureElevator = document.querySelector('#filter-elevator');
+const featureconditioner = document.querySelector('#filter-conditioner');
 
+const checkFilterFeatures = () => {
+  const checkedFeaturesArray = [];
 
-
-const funcName = () => {
-  const emptyArr = [];
-
-  featureWifi.addEventListener('click', () => {
-    const wifi = document.querySelector('#filter-wifi').value;
-    //console.log(wifi);
-
-    emptyArr.push('wifi');
-    console.log(emptyArr);
-  });
-
-
+  if (featureWifi.checked) {
+    checkedFeaturesArray.push(featureWifi.value);
+  } if (featureDishwasher.checked) {
+    checkedFeaturesArray.push(featureDishwasher.value);
+  } if (featureParking.checked) {
+    checkedFeaturesArray.push(featureParking.value);
+  } if (featureWasher.checked) {
+    checkedFeaturesArray.push(featureWasher.value);
+  } if (featureElevator.checked) {
+    checkedFeaturesArray.push(featureElevator.value);
+  }  if (featureconditioner.checked) {
+    checkedFeaturesArray.push(featureconditioner.value);
+  }
+  return checkedFeaturesArray;
 };
-
-funcName(); */
 
 
 const filterData = ((serverData) => {
@@ -121,13 +115,17 @@ const filterData = ((serverData) => {
       });
     });
 
-    const finalcompare = secondCompare.filter((secondResult) => {
+    const finalCompare = secondCompare.filter((secondResult) => {
       return arrFilteredByGuestsNumber.some((guestsNumber) => {
         return secondResult === guestsNumber;
       });
     });
 
-    getPins(finalcompare);
+    const adsFeatures = finalCompare.map(adElement => adElement.offer.features); //получаю массив, которые содержит только данные об удобствах
+    const featuresArray = checkFilterFeatures(); //получаю массив удобств, которые выбраны с помощью чекбоксов
+
+
+    getPins(finalCompare);
   });
 });
 

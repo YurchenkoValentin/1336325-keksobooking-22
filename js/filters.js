@@ -19,6 +19,7 @@ const featureWasher = document.querySelector('#filter-washer');
 const featureElevator = document.querySelector('#filter-elevator');
 const featureconditioner = document.querySelector('#filter-conditioner');
 
+
 const checkFilterFeatures = () => {
   const checkedFeaturesArray = [];
 
@@ -124,6 +125,36 @@ const filterData = ((serverData) => {
     const adsFeatures = finalCompare.map(adElement => adElement.offer.features); //получаю массив, которые содержит только данные об удобствах
     const featuresArray = checkFilterFeatures(); //получаю массив удобств, которые выбраны с помощью чекбоксов
 
+   /*  const getMatched = () => {
+      let matched = '';
+      for( let i = 0; i < adsFeatures.length; i++) {
+        matched = adsFeatures.some(r=> featuresArray.indexOf(r) >= 0);
+      };
+
+      if (matched === true || featuresArray.length === 0) {
+        console.log('It\'s a match');
+      } else {
+        console.error('Не мэтч');
+      }
+    }; */
+
+    let matched = '';
+
+    console.log(adsFeatures);
+    console.log(featuresArray);
+
+    adsFeatures.forEach((element) => {
+      matched = element.some(r=> featuresArray.indexOf(r) >= 0);
+      if (matched === true || featuresArray.length === 0) {
+        console.log('It\'s a match');
+      } else {
+        console.error('Не мэтч');
+      }
+    });
+
+
+    //getMatched();
+    //console.log(matched);
 
     getPins(finalCompare);
   });

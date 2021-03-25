@@ -1,11 +1,17 @@
 import {getData} from './backend.js';
-import {getMapData, map} from './map.js';
-import {filterDataWrapper} from './filters.js';
+import {getPins} from './map.js';
+import {changeFilter} from './filters.js';
+import {debounce} from './util.js';
 
+const RERENDER_DELAY = 500;
 
 getData((serverData) => {
-  filterDataWrapper(serverData, map);
-  getMapData(serverData, map);
+
+  getPins(serverData);
+  changeFilter(debounce(
+    () => getPins(serverData),
+    RERENDER_DELAY,
+  ));
 });
 
 

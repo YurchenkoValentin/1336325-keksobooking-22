@@ -51,8 +51,16 @@ const showAlert = (message) => {
   }, 5000);
 };
 
+const debounce = (filterAds, timeout) => {
+  let timeFilter;
+  return () => {
+    clearTimeout(timeFilter);
+    timeFilter = setTimeout(() => filterAds.apply(this), timeout);
+  };
+};
 
 
-export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert, isEscEvent, isClickEvent};
+
+export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert, isEscEvent, isClickEvent, debounce};
 
 

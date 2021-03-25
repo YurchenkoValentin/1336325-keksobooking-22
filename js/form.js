@@ -1,5 +1,6 @@
 import {isEscEvent, isClickEvent} from './util.js';
 import {DEFAULT_LAT, DEFAULT_LNG, DEFAULT_MAP_ZOOM, map, defaultMarkerLatLng, mainPinMarker} from './map.js';
+import {clearPhoto, setDefaultAvatar} from './photo.js';
 
 const MIN_LENGHT_TITLE = 30;
 const MAX_LENGHT_TITLE = 100;
@@ -147,6 +148,8 @@ roomCapacity.addEventListener('change', () => {
 const resetForm = () => {
   formAd.reset();
   mapFilters.reset();
+  clearPhoto();
+  setDefaultAvatar();
   map.setView({lat: DEFAULT_LAT, lng: DEFAULT_LNG}, DEFAULT_MAP_ZOOM);
   mainPinMarker.setLatLng(defaultMarkerLatLng);
 };

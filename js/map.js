@@ -1,5 +1,4 @@
 /* global L:readonly */
-//import {createAdverts} from './data.js';
 import {createSimilarAdverts} from './create-similar-ad.js';
 import {getFilter} from './filters.js';
 
@@ -7,55 +6,44 @@ const DEFAULT_LAT = 35.67636;
 const DEFAULT_LNG = 139.69927;
 const DEFAULT_MAP_ZOOM = 14;
 
-const getForm = () => {
-  return adForm;
-};
+const defaultMarkerLatLng = new L.LatLng(35.67636, 139.69927);
+
+const getForm = () => adForm;
 
 const adForm = document.querySelector('.ad-form');
 const formFildsets = adForm.querySelectorAll('fieldset');
-const mapFiltersContainer = document.querySelector('.map__filters');
-const mapFilters = mapFiltersContainer.querySelectorAll('.map__filter');
-const mapFeatures = mapFiltersContainer.querySelectorAll('.map__features');
+const mapFilters = document.querySelector('.map__filters');
+const filters = mapFilters.querySelectorAll('fildset, select');
 const mapContainer = document.querySelector('.map__canvas');
 
-let formCoordinates = document.querySelector('.ad-form__element--wide #address');
 
-const defaultMarkerLatLng = new L.LatLng(35.67636, 139.69927);
-let mainPinMarker = '';
+const deactivatePage = () => {
+  adForm.classList.add('ad-form--disabled');
+  formFildsets.forEach((element) => {
+    element.disabled = true;
+  });
+  mapFilters.classList.add('map__filters--disabled');
+  filters.forEach((element) => {
+    element.disabled = true;
+  });
+};
 
-adForm.classList.add('ad-form--disabled');
-mapFiltersContainer.classList.add('map__filters--disabled');
+deactivatePage();
 
-formFildsets.forEach((fildset) => {
-  fildset.setAttribute('disabled', true);
-});
+const activatePage = () => {
+  adForm.classList.remove('ad-form--disabled');
+  formFildsets.forEach((element) => {
+    element.disabled = false;
+  });
+  mapFilters.classList.remove('map__filters--disabled');
+  filters.forEach((element) => {
+    element.disabled = false;
+  });
+};
 
-mapFilters.forEach((filter) => {
-  filter.setAttribute('disabled', true);
-});
-
-mapFeatures.forEach((feature) => {
-  feature.setAttribute('disabled', true);
-});
 
 const map = L.map(mapContainer)
-  .on('load', () => {
-
-    //console.log('Карта инициализирована');
-    adForm.classList.remove('ad-form--disabled');
-    mapFiltersContainer.classList.remove('map__filters--disabled');
-
-    formFildsets.forEach((fildset) => {
-      fildset.removeAttribute('disabled', true);
-    });
-    mapFilters.forEach((filter) => {
-      filter.removeAttribute('disabled', true);
-    });
-    mapFeatures.forEach((feature) => {
-      feature.removeAttribute('disabled', true);
-    });
-  })
-  .setView({lat: DEFAULT_LAT, lng: DEFAULT_LNG}, DEFAULT_MAP_ZOOM);
+  .on('load', deactivatePage).setView({lat: DEFAULT_LAT, lng: DEFAULT_LNG}, DEFAULT_MAP_ZOOM);
 
 
 L.tileLayer(
@@ -71,6 +59,8 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
+let mainPinMarker = '';
+
 mainPinMarker = L.marker(
   {
     lat: 35.67636,
@@ -85,6 +75,7 @@ mainPinMarker = L.marker(
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
+  let formCoordinates = document.querySelector('.ad-form__element--wide #address');
   const coordinates = evt.target.getLatLng();
   const lat = coordinates.lat;
   const lng = coordinates.lng;
@@ -113,13 +104,10 @@ const getPins = (advertsArray) => {
       const marker = L.marker({lat,lng},{icon: pinIcon});
       marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
     });
-
+  activatePage();
 };
 
 export {DEFAULT_LAT, DEFAULT_LNG, DEFAULT_MAP_ZOOM, map, defaultMarkerLatLng, mainPinMarker, getForm, getPins};
 
 
-
-
-/// НЕ ЗАБУДЬ ПЕРЕПОДКЛЮЧИТЬ СКРИПТЫ И СТИЛИ LEAFLET ЛОКАЛЬНО
 

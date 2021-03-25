@@ -24,32 +24,30 @@ const filtrationPrice = (data) => {
   }
 };
 
-const filtrationFeatures = (data) => {
+const filtrationFeatures = (serverData) => {
   const checkedFeatures = housingFeatures.querySelectorAll('input:checked');
 
-  const a = Array.from(checkedFeatures).every((input) => {
-    console.log(data.offer.features.includes(input.value));
-    return data.offer.features.includes(input.value);
+  const adCheckingIncludesBoolean = Array.from(checkedFeatures).every((input) => {
+    return serverData.offer.features.includes(input.value);
   });
-  return a;
+  return adCheckingIncludesBoolean;
 };
 
-const getFilter = (data) => {
-
-  if ((data.offer.type === housingType.value || housingType.value === DEFAULT_TYPE)
-  && (data.offer.rooms === +housingRooms.value || housingRooms.value === DEFAULT_TYPE)
-  && (filtrationPrice(data) || housingPrice.value === DEFAULT_TYPE)
-  && (data.offer.guests === +housingGuests.value || housingGuests.value === DEFAULT_TYPE)
-  && (filtrationFeatures(data))
-  ) {
-    return data;
+const getFilter = (serverData) => {
+  if ((serverData.offer.type === housingType.value || housingType.value === DEFAULT_TYPE)
+  && (serverData.offer.rooms === +housingRooms.value || housingRooms.value === DEFAULT_TYPE)
+  && (filtrationPrice(serverData) || housingPrice.value === DEFAULT_TYPE)
+  && (serverData.offer.guests === +housingGuests.value || housingGuests.value === DEFAULT_TYPE)
+  && (filtrationFeatures(serverData))) {
+    return serverData;
+  } else {
+    return false;
   }
-  return false;
 };
 
-const changeFilter = (onFilterClick) => {
+const changeFilter = (selectedFilters) => {
   mapFilters.addEventListener('change', () => {
-    onFilterClick();
+    selectedFilters();
   });
 };
 

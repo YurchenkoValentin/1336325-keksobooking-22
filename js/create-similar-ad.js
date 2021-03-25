@@ -30,13 +30,10 @@ const generateFeatures = (features) => {
   }
 };
 
-
-
 const createSimilarAdverts = (ad) => {
 
   adElement = cardTemplate.cloneNode(true);
 
-  // Сопоставление типов жилья
   const getAccommodationType = (type) => {
     switch (type) {
       case 'flat':
@@ -63,8 +60,6 @@ const createSimilarAdverts = (ad) => {
 
   return adElement;
 };
-
-//createSimilarAdverts(similarAds);
 
 export {createSimilarAdverts};
 

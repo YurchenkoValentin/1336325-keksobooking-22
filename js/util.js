@@ -29,7 +29,6 @@ const getArrayShuffle = (array) => {
   return array.sort(() => Math.random() - 0.5);
 };
 
-
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -58,7 +57,6 @@ const debounce = (filterAds, timeout) => {
     timeFilter = setTimeout(() => filterAds.apply(this), timeout);
   };
 };
-
 
 
 export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert, isEscEvent, isClickEvent, debounce};

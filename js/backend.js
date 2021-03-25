@@ -1,4 +1,3 @@
-//import {createSimilarAdverts} from './create-similar-ad.js';
 import {showAlert} from './util.js';
 import {getForm} from './map.js';
 import {showSuccessMessage, showErrorMessage} from './form.js';
@@ -44,7 +43,6 @@ const postFormData = (onSuccess, onFail) => {
       });
   });
 };
-
 
 postFormData(showSuccessMessage, showErrorMessage);
 

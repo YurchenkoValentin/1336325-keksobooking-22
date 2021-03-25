@@ -58,7 +58,6 @@ const debounce = (filterAds, timeout) => {
   };
 };
 
-
 export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert, isEscEvent, isClickEvent, debounce};
 
 

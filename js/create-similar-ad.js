@@ -30,6 +30,8 @@ const generateFeatures = (features) => {
   }
 };
 
+
+
 const createSimilarAdverts = (ad) => {
 
   adElement = cardTemplate.cloneNode(true);

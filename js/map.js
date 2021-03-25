@@ -2,6 +2,14 @@
 //import {createAdverts} from './data.js';
 import {createSimilarAdverts} from './create-similar-ad.js';
 
+const DEFAULT_LAT = 35.67636;
+const DEFAULT_LNG = 139.69927;
+const DEFAULT_MAP_ZOOM = 14;
+
+const getForm = () => {
+  return adForm;
+};
+
 const adForm = document.querySelector('.ad-form');
 const formFildsets = adForm.querySelectorAll('fieldset');
 const mapFiltersContainer = document.querySelector('.map__filters');
@@ -11,10 +19,8 @@ const mapContainer = document.querySelector('.map__canvas');
 
 let formCoordinates = document.querySelector('.ad-form__element--wide #address');
 
-
-const getForm = () => {
-  return adForm;
-};
+const defaultMarkerLatLng = new L.LatLng(35.67636, 139.69927);
+let mainPinMarker = '';
 
 adForm.classList.add('ad-form--disabled');
 mapFiltersContainer.classList.add('map__filters--disabled');
@@ -41,19 +47,14 @@ const map = L.map(mapContainer)
     formFildsets.forEach((fildset) => {
       fildset.removeAttribute('disabled', true);
     });
-
     mapFilters.forEach((filter) => {
       filter.removeAttribute('disabled', true);
     });
-
     mapFeatures.forEach((feature) => {
       feature.removeAttribute('disabled', true);
     });
   })
-  .setView({
-    lat: 35.67636,
-    lng: 139.69927,
-  }, 14);
+  .setView({lat: DEFAULT_LAT, lng: DEFAULT_LNG}, DEFAULT_MAP_ZOOM);
 
 
 const getMapData = (advertsArray, map) => {
@@ -74,7 +75,7 @@ const getMapData = (advertsArray, map) => {
     iconAnchor: [26, 52],
   });
 
-  const mainPinMarker = L.marker(
+  mainPinMarker = L.marker(
     {
       lat: 35.67636,
       lng: 139.69927,
@@ -87,15 +88,14 @@ const getMapData = (advertsArray, map) => {
 
   mainPinMarker.addTo(map);
 
-
   mainPinMarker.on('moveend', (evt) => {
     const coordinates = evt.target.getLatLng();
     const lat = coordinates.lat;
     const lng = coordinates.lng;
     formCoordinates.value = `${String(lat.toFixed(5))}, ${String(lng.toFixed(5))}`;
     return formCoordinates;
-
   });
+
   getPins(advertsArray, map);
 };
 
@@ -114,6 +114,7 @@ const getPins = (advertsArray) => {
     const marker = L.marker({lat,lng},{icon: pinIcon});
     marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
   });
+
 };
 
 const markers = L.layerGroup().addTo(map);
@@ -125,7 +126,7 @@ const clearMap = () => {
 
 
 
-export {getMapData, getForm, getPins, map, clearMap};
+export {DEFAULT_LAT, DEFAULT_LNG, DEFAULT_MAP_ZOOM, map, defaultMarkerLatLng, mainPinMarker, getMapData, getForm, getPins, clearMap};
 
 
 

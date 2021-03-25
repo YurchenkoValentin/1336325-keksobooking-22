@@ -1,3 +1,11 @@
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+const isClickEvent = (evt) => {
+  return evt.type === 'click';
+};
+
 const getRandomNumber = (min, max) => {
   if (max <= min) {
     alert('Ошибка! Минимальное число должно быть меньше максимального');
@@ -45,6 +53,6 @@ const showAlert = (message) => {
 
 
 
-export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert};
+export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert, isEscEvent, isClickEvent};
 
 

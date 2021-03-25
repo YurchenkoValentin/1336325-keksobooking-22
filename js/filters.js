@@ -19,8 +19,11 @@ const featureWasher = document.querySelector('#filter-washer');
 const featureElevator = document.querySelector('#filter-elevator');
 const featureconditioner = document.querySelector('#filter-conditioner');
 
+const housingFeatures = document.querySelector('#housing-features');
 
-const checkFilterFeatures = () => {
+
+
+/* const checkFilterFeatures = () => {
   const checkedFeaturesArray = [];
 
   if (featureWifi.checked) {
@@ -37,7 +40,18 @@ const checkFilterFeatures = () => {
     checkedFeaturesArray.push(featureconditioner.value);
   }
   return checkedFeaturesArray;
-};
+}; */
+
+/* const filtrationFeatures = (data) => {
+  const checkedFeatures = housingFeatures.querySelectorAll('input:checked');
+
+  const a = Array.from(checkedFeatures).every((input) => {
+    console.log(data.offer.features.includes(input.value));
+    return data.offer.features.includes(input.value);
+  });
+  console.log(a);
+  return a;
+}; */
 
 
 const filterData = ((serverData) => {
@@ -122,39 +136,9 @@ const filterData = ((serverData) => {
       });
     });
 
-    const adsFeatures = finalCompare.map(adElement => adElement.offer.features); //получаю массив, которые содержит только данные об удобствах
-    const featuresArray = checkFilterFeatures(); //получаю массив удобств, которые выбраны с помощью чекбоксов
+    console.log(finalCompare);
 
-   /*  const getMatched = () => {
-      let matched = '';
-      for( let i = 0; i < adsFeatures.length; i++) {
-        matched = adsFeatures.some(r=> featuresArray.indexOf(r) >= 0);
-      };
-
-      if (matched === true || featuresArray.length === 0) {
-        console.log('It\'s a match');
-      } else {
-        console.error('Не мэтч');
-      }
-    }; */
-
-    let matched = '';
-
-    console.log(adsFeatures);
-    console.log(featuresArray);
-
-    adsFeatures.forEach((element) => {
-      matched = element.some(r=> featuresArray.indexOf(r) >= 0);
-      if (matched === true || featuresArray.length === 0) {
-        console.log('It\'s a match');
-      } else {
-        console.error('Не мэтч');
-      }
-    });
-
-
-    //getMatched();
-    //console.log(matched);
+   // filtrationFeatures(serverData);
 
     getPins(finalCompare);
   });

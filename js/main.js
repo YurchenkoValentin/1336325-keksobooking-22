@@ -1,17 +1,17 @@
-//import {createAdverts} from './data.js';
-/* import {createSimilarAdverts} from './create-similar-ad.js';
-createSimilarAdverts(); */
-
-//createAdverts();
-
 import {getData} from './backend.js';
-import {getMapData} from './map.js';
+import {getPins} from './map.js';
+import {changeFilter} from './filters.js';
+import {debounce} from './util.js';
 
-getData((defaultData) => {
-  getMapData(defaultData);
+const DEBOUNCE_DELAY = 500;
+
+getData((serverData) => {
+
+  getPins(serverData);
+  changeFilter(debounce(
+    () => getPins(serverData),
+    DEBOUNCE_DELAY,
+  ));
 });
 
-
-
-// ЧТО ЯВЛЯЕТСЯ ПАРАМЕТРОМ el ????
 

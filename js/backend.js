@@ -1,6 +1,6 @@
-//import {createSimilarAdverts} from './create-similar-ad.js';
 import {showAlert} from './util.js';
 import {getForm} from './map.js';
+import {showSuccessMessage, showErrorMessage} from './form.js';
 
 const form = getForm();
 
@@ -18,7 +18,7 @@ const getData = (onSuccess) => {
 };
 
 
-const postFormData = (onSuccess) => {
+const postFormData = (onSuccess, onFail) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -35,21 +35,16 @@ const postFormData = (onSuccess) => {
         if (response.ok) {
           onSuccess();
         } else {
-          showAlert('Не удалось отправить форму');
+          onFail();
         }
       })
       .catch(() => {
-        showAlert('Не удалось отправить форму');
+        onFail();
       });
   });
 };
 
-const resetForm = () => {
-  form.reset();
-  showAlert('Форма отправлена');
-};
-
-postFormData(resetForm);
+postFormData(showSuccessMessage, showErrorMessage);
 
 export {getData};
 

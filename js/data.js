@@ -31,7 +31,7 @@ const getAccommodationCheckoutIndex = () => {
   return getRandomNumber(0, CHECKOUT.length - 1);
 };
 
-const FEATURES = ['wifi', ' dishwasher', ' parking', ' washer', ' elevator', ' conditioner'];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',

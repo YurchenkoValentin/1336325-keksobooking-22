@@ -1,3 +1,11 @@
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+const isClickEvent = (evt) => {
+  return evt.type === 'click';
+};
+
 const getRandomNumber = (min, max) => {
   if (max <= min) {
     alert('Ошибка! Минимальное число должно быть меньше максимального');
@@ -21,7 +29,6 @@ const getArrayShuffle = (array) => {
   return array.sort(() => Math.random() - 0.5);
 };
 
-
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -43,7 +50,14 @@ const showAlert = (message) => {
   }, 5000);
 };
 
+const debounce = (filterAds, timeout) => {
+  let timeFilter;
+  return () => {
+    clearTimeout(timeFilter);
+    timeFilter = setTimeout(() => filterAds.apply(this), timeout);
+  };
+};
 
-export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert};
+export {getRandomNumber, getCoordinates, getRandomArrayCountShuffled, showAlert, isEscEvent, isClickEvent, debounce};
 
 

@@ -3,15 +3,15 @@ const Price = {
   LOW: 10000,
   HIGH: 50000,
 };
-const mapFilters = document.querySelector('.map__filters');
-const housingType = mapFilters.querySelector('#housing-type');
-const housingRooms = mapFilters.querySelector('#housing-rooms');
-const housingPrice = mapFilters.querySelector('#housing-price');
-const housingGuests = mapFilters.querySelector('#housing-guests');
-const housingFeatures = mapFilters.querySelector('#housing-features');
+const onMapFiltersChange = document.querySelector('.map__filters');
+const housingType = onMapFiltersChange.querySelector('#housing-type');
+const housingRooms = onMapFiltersChange.querySelector('#housing-rooms');
+const housingPrice = onMapFiltersChange.querySelector('#housing-price');
+const housingGuests = onMapFiltersChange.querySelector('#housing-guests');
+const housingFeatures = onMapFiltersChange.querySelector('#housing-features');
 
 
-const filtrationPrice = (data) => {
+const filterPrice = (data) => {
   switch (housingPrice.value) {
     case 'low':
       return data.offer.price < Price.LOW;
@@ -24,7 +24,7 @@ const filtrationPrice = (data) => {
   }
 };
 
-const filtrationFeatures = (serverData) => {
+const filterFeatures = (serverData) => {
   const checkedFeatures = housingFeatures.querySelectorAll('input:checked');
 
   const adCheckingIncludesBoolean = Array.from(checkedFeatures).every((input) => {
@@ -36,9 +36,9 @@ const filtrationFeatures = (serverData) => {
 const getFilter = (serverData) => {
   if ((serverData.offer.type === housingType.value || housingType.value === DEFAULT_TYPE)
   && (serverData.offer.rooms === +housingRooms.value || housingRooms.value === DEFAULT_TYPE)
-  && (filtrationPrice(serverData) || housingPrice.value === DEFAULT_TYPE)
+  && (filterPrice(serverData) || housingPrice.value === DEFAULT_TYPE)
   && (serverData.offer.guests === +housingGuests.value || housingGuests.value === DEFAULT_TYPE)
-  && (filtrationFeatures(serverData))) {
+  && (filterFeatures(serverData))) {
     return serverData;
   } else {
     return false;
@@ -46,7 +46,7 @@ const getFilter = (serverData) => {
 };
 
 const changeFilter = (selectedFilters) => {
-  mapFilters.addEventListener('change', () => {
+  onMapFiltersChange.addEventListener('change', () => {
     selectedFilters();
   });
 };

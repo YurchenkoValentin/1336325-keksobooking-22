@@ -1,69 +1,48 @@
-import {createAd} from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const photosContainer = cardTemplate.querySelector('.popup__photos');
-const popupPhoto = cardTemplate.querySelector('.popup__photo');
 
-const generatePhotos = () => {
-  photosContainer.innerHTML = '';
-  createAd().offer.photos.forEach((item) => {
-    popupPhoto.src = item;
-    photosContainer.append(popupPhoto.cloneNode(true));
-  });
+const houseType = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало',
 };
 
-let adElement = '';
+const createSimilarAdverts = (generateAds) => {
+  const adElement = cardTemplate.cloneNode(true);
+  const adFeatures = adElement.querySelector('.popup__features');
+  const adPhotos = adElement.querySelector('.popup__photos');
+  const photo = adElement.querySelector('.popup__photo');
 
-const generateFeatures = (features) => {
-  if (features.includes('wifi') != true) {
-    adElement.querySelector('.popup__feature--wifi').remove();
-  } if (features.includes('dishwasher') != true) {
-    adElement.querySelector('.popup__feature--dishwasher').remove();
-  } if (features.includes('parking') != true) {
-    adElement.querySelector('.popup__feature--parking').remove();
-  } if (features.includes('washer') != true) {
-    adElement.querySelector('.popup__feature--washer').remove();
-  } if (features.includes('elevator') != true) {
-    adElement.querySelector('.popup__feature--elevator').remove();
-  } if (features.includes('conditioner') != true) {
-    adElement.querySelector('.popup__feature--conditioner').remove();
-  }
-};
-
-const createSimilarAdverts = (ad) => {
-
-  adElement = cardTemplate.cloneNode(true);
-
-  const getAccommodationType = (type) => {
-    switch (type) {
-      case 'flat':
-        return 'Квартира';
-      case 'bungalow':
-        return 'Бунгало';
-      case 'house':
-        return 'Дом';
-      case 'palace':
-        return 'Дворец';
-    }
+  const generateFeatures = () => {
+    adFeatures.innerHTML = '';
+    generateAds.offer.features.forEach((item, i) => {
+      const feature = document.createElement('li');
+      feature.classList.add('popup__feature', 'popup__feature--' + generateAds.offer.features[i]);
+      adFeatures.appendChild(feature);
+    });
   };
 
-  adElement.querySelector('.popup__title').textContent =  ad.offer.title;
-  adElement.querySelector('.popup__text--address').textContent = ad.offer.address;
-  adElement.querySelector('.popup__text--price').textContent = String(ad.offer.price) + ' ₽/ночь';
-  adElement.querySelector('.popup__type').textContent = getAccommodationType(ad.offer.type);
-  adElement.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
-  adElement.querySelector('.popup__text--time').textContent = `Заезд после ${String(ad.offer.checkin)}, выезд после  ${String(ad.offer.checkout)}`;
-  generateFeatures(ad.offer.features);
-  adElement.querySelector('.popup__description').textContent = ad.offer.description;
+  const generatePhotos = () => {
+    adPhotos.innerHTML = '';
+    generateAds.offer.photos.forEach((item, i) => {
+      photo.src = generateAds.offer.photos[i];
+      adPhotos.appendChild(photo.cloneNode(true));
+    });
+  };
+
+  adElement.querySelector('.popup__title').textContent = generateAds.offer.title;
+  adElement.querySelector('.popup__text--address').textContent = generateAds.offer.address;
+  adElement.querySelector('.popup__text--price').textContent = generateAds.offer.price + ' ₽/ночь';
+  adElement.querySelector('.popup__type').textContent = houseType[generateAds.offer.type];
+  adElement.querySelector('.popup__text--capacity').textContent = generateAds.offer.rooms + ' комнаты для ' + generateAds.offer.guests + ' гостей';
+  adElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + generateAds.offer.checkin + ', выезд до ' + generateAds.offer.checkout;
+  adElement.querySelector('.popup__description').textContent = generateAds.offer.description;
+  adElement.querySelector('.popup__avatar').src = generateAds.author.avatar;
+  generateFeatures();
   generatePhotos();
-  adElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
 
   return adElement;
 };
 
 export {createSimilarAdverts};
-
-
-
-
-

@@ -1,11 +1,13 @@
 import {showAlert} from './util.js';
 import {getForm} from './map.js';
-import {showSuccessMessage, showErrorMessage} from './form.js';
+import {showMessage} from './form.js';
 
-const form = getForm();
+const DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
+
+const onFormSubmit = getForm();
 
 const getData = (onSuccess) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
+  fetch(DATA_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -18,8 +20,8 @@ const getData = (onSuccess) => {
 };
 
 
-const postFormData = (onSuccess, onFail) => {
-  form.addEventListener('submit', (evt) => {
+const postFormData = (onSuccess) => {
+  onFormSubmit.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const formData = new FormData(evt.target);
@@ -33,18 +35,18 @@ const postFormData = (onSuccess, onFail) => {
     )
       .then((response) => {
         if (response.ok) {
-          onSuccess();
+          onSuccess(true);
         } else {
-          onFail();
+          onSuccess(false);
         }
       })
       .catch(() => {
-        onFail();
+        onSuccess(false);
       });
   });
 };
 
-postFormData(showSuccessMessage, showErrorMessage);
+postFormData(showMessage);
 
 export {getData};
 

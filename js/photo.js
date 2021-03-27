@@ -1,13 +1,13 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-const avatarChooser= document.querySelector('.ad-form__field input[type=file]');
+const onAvatarChooserChange = document.querySelector('.ad-form__field input[type=file]');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
 
-const photoChooser = document.querySelector('.ad-form__upload input[type=file]');
+const onPhotoChooserChange = document.querySelector('.ad-form__upload input[type=file]');
 const photoPreview = document.querySelector('.ad-form__photo');
 
-avatarChooser.addEventListener('change', () => {
-  const file = avatarChooser.files[0];
+onAvatarChooserChange.addEventListener('change', () => {
+  const file = onAvatarChooserChange.files[0];
   const fileName = file.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => {
@@ -15,13 +15,13 @@ avatarChooser.addEventListener('change', () => {
   });
 
   if (matches) {
-    const reader = new FileReader();
+    const onReaderLoad = new FileReader();
 
-    reader.addEventListener('load', () => {
-      avatarPreview.src = reader.result;
+    onReaderLoad.addEventListener('load', () => {
+      avatarPreview.src = onReaderLoad.result;
     });
 
-    reader.readAsDataURL(file);
+    onReaderLoad.readAsDataURL(file);
   }
 });
 
@@ -29,12 +29,12 @@ const setDefaultAvatar = () => {
   avatarPreview.src = 'img/muffin-grey.svg';
 };
 
-photoChooser.addEventListener('change', () => {
+onPhotoChooserChange.addEventListener('change', () => {
   const photoWrapper = document.createElement('img');
   photoWrapper.style.width = '100%';
   photoWrapper.style.height = '100%';
 
-  const file = photoChooser.files[0];
+  const file = onPhotoChooserChange.files[0];
   const fileName = file.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => {

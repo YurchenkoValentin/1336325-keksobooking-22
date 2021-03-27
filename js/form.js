@@ -1,6 +1,7 @@
 import {isEscEvent, isClickEvent} from './util.js';
-import {DEFAULT_LAT, DEFAULT_LNG, DEFAULT_MAP_ZOOM, map, defaultMarkerLatLng, mainPinMarker} from './map.js';
+import {DEFAULT_LAT, DEFAULT_LNG, DEFAULT_MAP_ZOOM, map, defaultMarkerLatLng, mainPinMarker, getPins} from './map.js';
 import {clearPhoto, setDefaultAvatar} from './photo.js';
+import {getData} from './backend.js';
 
 const MIN_LENGHT_TITLE = 30;
 const MAX_LENGHT_TITLE = 100;
@@ -14,13 +15,13 @@ const formAd = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 
 const housingTitle = document.querySelector('#title');
-const housingPrice = document.querySelector('#price');
-const housingType = document.querySelector('#type');
+const onHousingPriceInput = document.querySelector('#price');
+const onHousingTypeInput = formAd.querySelector('#type');
 const formCheckinCheckout = document.querySelector('.ad-form__element--time');
-const checkin = formCheckinCheckout.querySelector('#timein');
-const checkout = formCheckinCheckout.querySelector('#timeout');
-const roomNumber = document.querySelector('select#room_number');
-const roomCapacity = document.querySelector('select#capacity');
+const onCheckinChange = formCheckinCheckout.querySelector('#timein');
+const onCheckoutChange = formCheckinCheckout.querySelector('#timeout');
+const onRoomNumberChange = document.querySelector('select#room_number');
+const onRoomCapacityChange = document.querySelector('select#capacity');
 const minPrice = {
   'bungalow': 0,
   'flat': 1000,
@@ -28,12 +29,12 @@ const minPrice = {
   'palace': 10000,
 };
 
-const resetButton = formAd.querySelector('.ad-form__reset');
+const onResetButtonClick = formAd.querySelector('.ad-form__reset');
 
-housingTitle.addEventListener('input', () => {
+onHousingTypeInput.addEventListener('input', () => {
   const valueLength = housingTitle.value.length;
   if (valueLength < MIN_LENGHT_TITLE) {
-    housingTitle.setCustomValidity(`Еще ${MIN_LENGHT_TITLE - valueLength} символов`)
+    housingTitle.setCustomValidity(`Еще ${MIN_LENGHT_TITLE - valueLength} символов`);
   } else if (valueLength > MAX_LENGHT_TITLE) {
     housingTitle.setCustomValidity(`Удалите ${valueLength - MAX_LENGHT_TITLE} лишних символов`);
   } else {
@@ -41,108 +42,53 @@ housingTitle.addEventListener('input', () => {
   }
 });
 
+const checkPriceValidity = () => {
+  const minValue = minPrice[onHousingTypeInput.value];
+  onHousingPriceInput.min = minValue;
+  onHousingPriceInput.placeholder = minValue;
+};
 
-housingType.addEventListener('change', () => {
-  const minValue = minPrice[housingType.value];
-  housingPrice.min = minValue;
-  housingPrice.placeholder = minValue;
-  switch (housingType.value) {
-    case 'bungalow':
-      document.querySelector('.ad-form__element #price').placeholder = '0';
-      document.querySelector('.ad-form__element #price').setAttribute('min', '0');
-      break;
-    case 'flat':
-      document.querySelector('.ad-form__element #price').placeholder = '1000';
-      document.querySelector('.ad-form__element #price').setAttribute('min', '1000');
-      break;
-    case 'house':
-      document.querySelector('.ad-form__element #price').placeholder = '5000';
-      document.querySelector('.ad-form__element #price').setAttribute('min', '5000');
-      break;
-    case 'palace':
-      document.querySelector('.ad-form__element #price').placeholder = '10000';
-      document.querySelector('.ad-form__element #price').setAttribute('min', '10000');
-      break;
-  }
-});
-
-housingPrice.addEventListener('input', () => {
-  const priceValue = housingPrice.value;
+onHousingPriceInput.addEventListener('input', () => {
+  checkPriceValidity();
+  const priceValue = onHousingPriceInput.value;
   if (priceValue > MAX_PRICE) {
-    housingPrice.setCustomValidity('Цена не может быть больше миллиона');
+    onHousingPriceInput.setCustomValidity('Цена не может быть больше миллиона');
   } else {
-    housingPrice.setCustomValidity('');
+    onHousingPriceInput.setCustomValidity('');
   }
 });
 
-checkin.addEventListener('change', () => {
-  switch (checkin.value) {
-    case '12:00':
-      checkout.value = '12:00';
-      break;
-    case '13:00':
-      checkout.value = '13:00';
-      break;
-    case '14:00':
-      checkout.value = '14:00';
-      break;
-  }
-});
-
-checkout.addEventListener('change', () => {
-  switch (checkout.value) {
-    case '12:00':
-      checkin.value = '12:00';
-      break;
-    case '13:00':
-      checkin.value = '13:00';
-      break;
-    case '14:00':
-      checkin.value = '14:00';
-      break;
-  }
+onHousingTypeInput.addEventListener('change', () => {
+  checkPriceValidity();
 });
 
 
-roomNumber.addEventListener('change', () => {
-  switch (roomNumber.value) {
-    case '1':
-      roomCapacity.value = '1';
-      break;
-    case '2':
-      roomCapacity.value = '1';
-      roomCapacity.value = '2';
-      break;
-    case '3':
-      roomCapacity.value = '1';
-      roomCapacity.value = '2';
-      roomCapacity.value = '3';
-      break;
-    case '100':
-      roomCapacity.value = '0';
-      break;
+const checkPlace = () => {
+  if (onRoomNumberChange.value === '100' && onRoomCapacityChange.value !== '0') {
+    onRoomCapacityChange.setCustomValidity('Выберите вариант "Не для гостей"');
+  } else if (onRoomNumberChange.value !== '100' && onRoomCapacityChange.value === '0') {
+    onRoomCapacityChange.setCustomValidity('Выберите другой вариант');
+  } else if (onRoomNumberChange.value < onRoomCapacityChange.value) {
+    onRoomCapacityChange.setCustomValidity('Выберите меньшее число гостей');
+  } else {
+    onRoomCapacityChange.setCustomValidity('');
   }
+};
+
+onRoomCapacityChange.addEventListener('change', () => {
+  checkPlace();
 });
 
-roomCapacity.addEventListener('change', () => {
-  switch (roomCapacity.value) {
-    case '0':
-      roomNumber.value = '100';
-      break;
-    case '1':
-      roomNumber.value = '1';
-      roomNumber.value = '2';
-      break;
-    case '2':
-      roomNumber.value = '1';
-      roomNumber.value = '2';
-      break;
-    case '3':
-      roomNumber.value = '1';
-      roomNumber.value = '2';
-      roomNumber.value = '3';
-      break;
-  }
+onRoomNumberChange.addEventListener('change', () => {
+  checkPlace();
+});
+
+onCheckinChange.addEventListener('change', () => {
+  onCheckoutChange.value = onCheckinChange.value;
+});
+
+onCheckoutChange.addEventListener('change', () => {
+  onCheckinChange.value = onCheckoutChange.value;
 });
 
 const resetForm = () => {
@@ -152,40 +98,33 @@ const resetForm = () => {
   setDefaultAvatar();
   map.setView({lat: DEFAULT_LAT, lng: DEFAULT_LNG}, DEFAULT_MAP_ZOOM);
   mainPinMarker.setLatLng(defaultMarkerLatLng);
+  getData((data) => {
+    getPins(data);
+  });
 };
 
-resetButton.addEventListener('click', () => {
+onResetButtonClick.addEventListener('click', () => {
   resetForm();
 });
 
-
-const closeMessageEsc = (evt) => {
-  if (isEscEvent(evt)) {
-    successMessage.remove();
-    errorMessage.remove();
-    document.removeEventListener('keydown', closeMessageEsc);
+const closeMessage = (evt) => {
+  if (isClickEvent(evt) || isEscEvent(evt)) {
+    cleanEventListeners();
   }
 };
 
-const closeMessageClick = (evt) => {
-  if (isClickEvent(evt)) {
-    successMessage.remove();
-    errorMessage.remove();
-    document.removeEventListener('click', closeMessageClick);
-  }
+const cleanEventListeners = () => {
+  successMessage.remove();
+  errorMessage.remove();
+  document.removeEventListener('click', closeMessage);
+  document.removeEventListener('keydown', closeMessage);
 };
 
-const showSuccessMessage = () => {
-  main.append(successMessage);
+const showMessage = (isSuccess) => {
+  isSuccess ? main.append(successMessage) : main.append(errorMessage);
   resetForm();
-  document.addEventListener('keydown', closeMessageEsc);
-  document.addEventListener('click', closeMessageClick);
+  document.addEventListener('keydown', closeMessage);
+  document.addEventListener('click', closeMessage);
 };
 
-const showErrorMessage = () => {
-  main.append(errorMessage);
-  document.addEventListener('keydown', closeMessageEsc);
-  document.addEventListener('click', closeMessageClick);
-}
-
-export {showSuccessMessage, showErrorMessage};
+export {showMessage};

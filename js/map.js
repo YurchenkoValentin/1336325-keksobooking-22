@@ -5,6 +5,8 @@ import {getFilter} from './filters.js';
 const DEFAULT_LAT = 35.67636;
 const DEFAULT_LNG = 139.69927;
 const DEFAULT_MAP_ZOOM = 14;
+const ICON_WIDTH = 52;
+const ICON_HEIGHT = 52;
 
 const defaultMarkerLatLng = new L.LatLng(35.67636, 139.69927);
 
@@ -20,11 +22,11 @@ const mapContainer = document.querySelector('.map__canvas');
 const deactivatePage = () => {
   adForm.classList.add('ad-form--disabled');
   formFildsets.forEach((element) => {
-    element.disabled = true;
+    element.setAttribute = ('disabled', true);
   });
   mapFilters.classList.add('map__filters--disabled');
   filters.forEach((element) => {
-    element.disabled = true;
+    element.setAttribute = ('disabled', true);
   });
 };
 
@@ -33,11 +35,11 @@ deactivatePage();
 const activatePage = () => {
   adForm.classList.remove('ad-form--disabled');
   formFildsets.forEach((element) => {
-    element.disabled = false;
+    element.setAttribute = ('disabled', false);
   });
   mapFilters.classList.remove('map__filters--disabled');
   filters.forEach((element) => {
-    element.disabled = false;
+    element.setAttribute = ('disabled', false);
   });
 };
 
@@ -55,16 +57,16 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [ICON_WIDTH, ICON_HEIGHT],
+  iconAnchor: [ICON_WIDTH / 2, ICON_HEIGHT],
 });
 
 let mainPinMarker = '';
 
 mainPinMarker = L.marker(
   {
-    lat: 35.67636,
-    lng: 139.69927,
+    lat: DEFAULT_LAT,
+    lng: DEFAULT_LNG,
   },
   {
     draggable: true,
@@ -74,7 +76,7 @@ mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-mainPinMarker.on('moveend', (evt) => {
+mainPinMarker.on('move', (evt) => {
   let formCoordinates = document.querySelector('.ad-form__element--wide #address');
   const coordinates = evt.target.getLatLng();
   const lat = coordinates.lat;
@@ -88,9 +90,8 @@ const markers = L.layerGroup().addTo(map);
 const getPins = (advertsArray) => {
   markers.clearLayers();
   advertsArray
-    .slice()
-    .filter(getFilter)
     .slice(0, 10)
+    .filter(getFilter)
     .forEach((ad) => {
       const lat = ad.location.lat;
       const lng = ad.location.lng;

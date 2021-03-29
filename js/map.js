@@ -7,6 +7,7 @@ const DEFAULT_LNG = 139.69927;
 const DEFAULT_MAP_ZOOM = 14;
 const ICON_WIDTH = 52;
 const ICON_HEIGHT = 52;
+const ADVERTS_NUMBER = 10;
 
 const defaultMarkerLatLng = new L.LatLng(35.67636, 139.69927);
 
@@ -17,7 +18,6 @@ const formFildsets = adForm.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const filters = mapFilters.querySelectorAll('fildset, select');
 const mapContainer = document.querySelector('.map__canvas');
-
 
 const deactivatePage = () => {
   adForm.classList.add('ad-form--disabled');
@@ -42,7 +42,6 @@ const activatePage = () => {
     element.setAttribute = ('disabled', false);
   });
 };
-
 
 const map = L.map(mapContainer)
   .on('load', deactivatePage).setView({lat: DEFAULT_LAT, lng: DEFAULT_LNG}, DEFAULT_MAP_ZOOM);
@@ -89,23 +88,24 @@ const markers = L.layerGroup().addTo(map);
 
 const getPins = (advertsArray) => {
   markers.clearLayers();
-  advertsArray
-    .slice(0, 10)
-    .filter(getFilter)
-    .forEach((ad) => {
-      const lat = ad.location.lat;
-      const lng = ad.location.lng;
+  for (let i = 0; i < ADVERTS_NUMBER; i++) {
+    advertsArray
+      .filter(getFilter)
+      .forEach((ad) => {
+        const lat = ad.location.lat;
+        const lng = ad.location.lng;
 
-      const pinIcon = L.icon({
-        iconUrl: '../img/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
+        const pinIcon = L.icon({
+          iconUrl: '../img/pin.svg',
+          iconSize: [40, 40],
+          iconAnchor: [20, 40],
+        });
+
+        const marker = L.marker({lat,lng},{icon: pinIcon});
+        marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
       });
-
-      const marker = L.marker({lat,lng},{icon: pinIcon});
-      marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
-    });
-  activatePage();
+    activatePage();
+  }
 };
 
 export {DEFAULT_LAT, DEFAULT_LNG, DEFAULT_MAP_ZOOM, map, defaultMarkerLatLng, mainPinMarker, getForm, getPins};

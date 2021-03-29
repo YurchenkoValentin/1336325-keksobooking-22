@@ -8,6 +8,18 @@ const houseType = {
   bungalo: 'Бунгало',
 };
 
+const deleteEmptyElements = (parentNode) => {
+  const child = parentNode.children;
+
+  for (let element of child) {
+    if (!element.hasChildNodes() && element.tagName !== 'IMG') {
+      element.remove();
+    }
+  }
+
+  return parentNode;
+};
+
 const createSimilarAdverts = (generateAds) => {
   const adElement = cardTemplate.cloneNode(true);
   const adFeatures = adElement.querySelector('.popup__features');
@@ -42,7 +54,7 @@ const createSimilarAdverts = (generateAds) => {
   generateFeatures();
   generatePhotos();
 
-  return adElement;
+  return deleteEmptyElements(adElement);
 };
 
 export {createSimilarAdverts};

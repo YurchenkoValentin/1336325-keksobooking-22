@@ -2,12 +2,13 @@ import {showAlert} from './util.js';
 import {getForm} from './map.js';
 import {showMessage} from './form.js';
 
-const DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
+const GET_DATA_URL = 'https://22.javascript.pages.academy/keksobooking/data';
+const POST_DATA_URL = 'https://22.javascript.pages.academy/keksobooking';
 
 const onFormSubmit = getForm();
 
 const getData = (onSuccess) => {
-  fetch(DATA_URL)
+  fetch(GET_DATA_URL)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -27,7 +28,7 @@ const postFormData = (onSuccess) => {
     const formData = new FormData(evt.target);
 
     fetch(
-      'https://22.javascript.pages.academy/keksobooking',
+      POST_DATA_URL,
       {
         method: 'POST',
         body: formData,

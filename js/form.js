@@ -107,7 +107,7 @@ onResetButtonClick.addEventListener('click', () => {
   resetForm();
 });
 
-const closeMessage = (evt) => {
+const onCloseMessageClickKeydown = (evt) => {
   if (isClickEvent(evt) || isEscEvent(evt)) {
     cleanEventListeners();
   }
@@ -116,15 +116,15 @@ const closeMessage = (evt) => {
 const cleanEventListeners = () => {
   successMessage.remove();
   errorMessage.remove();
-  document.removeEventListener('click', closeMessage);
-  document.removeEventListener('keydown', closeMessage);
+  document.removeEventListener('click', onCloseMessageClickKeydown);
+  document.removeEventListener('keydown', onCloseMessageClickKeydown);
 };
 
 const showMessage = (isSuccess) => {
   isSuccess ? main.append(successMessage) : main.append(errorMessage);
   resetForm();
-  document.addEventListener('keydown', closeMessage);
-  document.addEventListener('click', closeMessage);
+  document.addEventListener('keydown', onCloseMessageClickKeydown);
+  document.addEventListener('click', onCloseMessageClickKeydown);
 };
 
 export {showMessage};

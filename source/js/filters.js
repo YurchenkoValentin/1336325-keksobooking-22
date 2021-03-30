@@ -3,6 +3,7 @@ const Price = {
   LOW: 10000,
   HIGH: 50000,
 };
+const ADVERTS_LIMIT = 10;
 const onMapFiltersChange = document.querySelector('.map__filters');
 const housingType = onMapFiltersChange.querySelector('#housing-type');
 const housingRooms = onMapFiltersChange.querySelector('#housing-rooms');
@@ -34,15 +35,17 @@ const filterFeatures = (serverData) => {
 };
 
 const getFilter = (serverData) => {
-  if ((serverData.offer.type === housingType.value || housingType.value === DEFAULT_TYPE)
-  && (serverData.offer.rooms === +housingRooms.value || housingRooms.value === DEFAULT_TYPE)
-  && (filterPrice(serverData) || housingPrice.value === DEFAULT_TYPE)
-  && (serverData.offer.guests === +housingGuests.value || housingGuests.value === DEFAULT_TYPE)
-  && (filterFeatures(serverData))) {
-    return serverData;
-  } else {
-    return false;
+  const filteredData = [];
+  for (let i = 0; i < ADVERTS_LIMIT; i++) {
+    if ((serverData[i].offer.type === housingType.value || housingType.value === DEFAULT_TYPE)
+    && (serverData[i].offer.rooms === +housingRooms.value || housingRooms.value === DEFAULT_TYPE)
+    && (filterPrice(serverData[i]) || housingPrice.value === DEFAULT_TYPE)
+    && (serverData[i].offer.guests === +housingGuests.value || housingGuests.value === DEFAULT_TYPE)
+    && (filterFeatures(serverData[i]))) {
+      filteredData.push(serverData[i]);
+    }
   }
+  return filteredData;
 };
 
 const changeFilter = (selectedFilters) => {

@@ -7,7 +7,6 @@ const DEFAULT_LNG = 139.69927;
 const DEFAULT_MAP_ZOOM = 14;
 const ICON_WIDTH = 52;
 const ICON_HEIGHT = 52;
-const ADVERTS_NUMBER = 10;
 
 const defaultMarkerLatLng = new L.LatLng(35.67636, 139.69927);
 
@@ -88,24 +87,22 @@ const markers = L.layerGroup().addTo(map);
 
 const getPins = (advertsArray) => {
   markers.clearLayers();
-  for (let i = 0; i < ADVERTS_NUMBER; i++) {
-    advertsArray
-      .filter(getFilter)
-      .forEach((ad) => {
-        const lat = ad.location.lat;
-        const lng = ad.location.lng;
+  const filteredData = getFilter(advertsArray);
+  filteredData
+    .forEach((ad) => {
+      const lat = ad.location.lat;
+      const lng = ad.location.lng;
 
-        const pinIcon = L.icon({
-          iconUrl: '../img/pin.svg',
-          iconSize: [40, 40],
-          iconAnchor: [20, 40],
-        });
-
-        const marker = L.marker({lat,lng},{icon: pinIcon});
-        marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
+      const pinIcon = L.icon({
+        iconUrl: '../img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
       });
-    activatePage();
-  }
+
+      const marker = L.marker({lat,lng},{icon: pinIcon});
+      marker.addTo(markers).bindPopup(createSimilarAdverts(ad));
+    });
+  activatePage();
 };
 
 export {DEFAULT_LAT, DEFAULT_LNG, DEFAULT_MAP_ZOOM, map, defaultMarkerLatLng, mainPinMarker, getForm, getPins};
